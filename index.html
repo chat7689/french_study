@@ -3,540 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced French Pronouns Mastery</title>
+    <title>IB Physics: Kinematics Mastery</title>
     <style>
+        /* Claude-style Premium UI Variables */
         :root {
-            --bg-color: #F9F8F6;
-            --text-main: #2D2B2A;
-            --text-muted: #6B6967;
-            --border-light: #E5E3DF;
-            --hover-bg: #F2EFEB;
-            
-            --correct-bg: #edf7ed;
-            --correct-border: #c8e6c9;
-            --correct-text: #1e4620;
-            
-            --incorrect-bg: #fdf0f0;
-            --incorrect-border: #fad2d2;
-            --incorrect-text: #5c1a1a;
-            
-            --btn-primary: #3F3D3C;
-            --btn-primary-hover: #2D2B2A;
-            
-            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --bg-page: #FAF9F8;
+            --bg-card: #FFFFFF;
+            --text-main: #2D2D2D;
+            --text-secondary: #575757;
+            --accent: #D97757; /* Refined rust/orange */
+            --accent-hover: #C26346;
+            --border-color: #E5E3D9;
+            --success-text: #2B6E3C;
+            --success-bg: #EDF6F0;
+            --error-text: #B42318;
+            --error-bg: #FEF3F2;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            background-color: var(--bg-page);
             color: var(--text-main);
-            font-family: var(--font-sans);
-            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
-            padding: 3rem 1rem;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
         }
 
         .container {
+            max-width: 760px;
             width: 100%;
-            max-width: 680px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0 0 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        p { margin-top: 0; color: var(--text-secondary); }
+
+        .dashboard {
             display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            margin-bottom: 2.5rem;
-            text-align: left;
-        }
-
-        .progress-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-page);
+            padding: 16px 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
             font-weight: 500;
         }
 
-        .progress-bar-container {
-            width: 100%;
-            height: 2px;
-            background-color: var(--border-light);
-            border-radius: 2px;
-            margin-bottom: 2rem;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--text-main);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .question-text {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--text-main);
-            line-height: 1.5;
-            margin-bottom: 2rem;
-        }
-
-        .question-text strong {
-            font-weight: 600;
-        }
-
-        .options-list {
+        .stat-badge {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .option {
-            background: transparent;
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 1.125rem 1.25rem;
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            color: var(--text-main);
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
             align-items: center;
         }
 
-        .option:hover:not(:disabled) {
-            background-color: var(--hover-bg);
-            border-color: #d4d2ce;
-        }
-
-        .option.correct {
-            background-color: var(--correct-bg);
-            border-color: var(--correct-border);
-            color: var(--correct-text);
-        }
-
-        .option.incorrect {
-            background-color: var(--incorrect-bg);
-            border-color: var(--incorrect-border);
-            color: var(--incorrect-text);
-        }
-
-        .option:disabled {
-            cursor: default;
-        }
-
-        .explanation {
-            display: none;
-            padding: 1.5rem;
-            background-color: #ffffff;
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .explanation h4 {
-            font-family: var(--font-serif);
-            font-size: 1.125rem;
+        .stat-value {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .problem-statement {
+            font-size: 1.15rem;
             color: var(--text-main);
+            margin: 24px 0;
         }
 
-        .explanation p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
+        .suvat-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--bg-page);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
         }
 
-        .next-btn-container {
+        .suvat-item {
             display: flex;
-            justify-content: flex-end;
+            flex-direction: column;
         }
 
-        .btn-primary {
-            background-color: var(--btn-primary);
-            color: #ffffff;
+        .suvat-var { font-weight: 600; font-family: monospace; font-size: 1.1rem; }
+        .suvat-val { font-size: 0.9rem; color: var(--text-secondary); }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: var(--font-family);
+        }
+
+        input[type="number"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.1); }
+
+        button {
+            background-color: var(--accent);
+            color: white;
             border: none;
-            border-radius: 12px;
-            padding: 0.875rem 1.75rem;
-            font-size: 0.95rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.2s;
+            font-family: var(--font-family);
+        }
+
+        button:hover { background-color: var(--accent-hover); }
+        button:disabled { background-color: var(--border-color); color: var(--text-secondary); cursor: not-allowed; }
+        button.secondary { background-color: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
+        button.secondary:hover { background-color: var(--bg-page); }
+
+        .feedback {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
             display: none;
+            font-weight: 500;
         }
+        .feedback.correct { background-color: var(--success-bg); color: var(--success-text); border: 1px solid #C6E0CE; }
+        .feedback.incorrect { background-color: var(--error-bg); color: var(--error-text); border: 1px solid #F4C7C3; }
 
-        .btn-primary:hover {
-            background-color: var(--btn-primary-hover);
-        }
-
-        #results-screen {
+        .solution-container {
             display: none;
-            text-align: left;
-            animation: fadeIn 0.4s ease;
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+            margin-top: 24px;
         }
 
-        .score-heading {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .graph-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+            background: var(--bg-page);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
         }
-        
-        .score-message {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
+
+        canvas { max-width: 100%; height: auto; }
+
+        .steps-box {
+            font-family: monospace;
+            background: #F4F4F5;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #3F3F46;
         }
+
+        .controls { display: flex; gap: 12px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="quiz-screen">
-            <div class="header">
-                <div class="progress-text" id="progress-text">Question 1 of 30</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                </div>
-                <div class="progress-text" style="float: right; margin-top: -3.5rem;" id="score-text">Score: 0</div>
+<div class="container">
+    <div class="card">
+        <h1>IB Physics: SUVAT Kinematics</h1>
+        <p>Master 1D motion equations. Train your intuition with dynamic Velocity-Time graphs.</p>
+        
+        <div class="dashboard">
+            <div class="stat-badge">
+                <span class="stat-value" id="score">0</span>
+                <span class="stat-label">Total Score</span>
             </div>
-
-            <div class="question-text" id="question-text">Loading...</div>
-            
-            <div class="options-list" id="options-list"></div>
-
-            <div class="explanation" id="explanation">
-                <h4>Analysis</h4>
-                <p id="explanation-text"></p>
+            <div class="stat-badge">
+                <span class="stat-value" id="streak">0</span>
+                <span class="stat-label">Current Streak</span>
             </div>
-
-            <div class="next-btn-container">
-                <button class="btn-primary" id="next-btn" onclick="nextQuestion()">Continue</button>
+            <div class="stat-badge">
+                <span class="stat-value" id="multiplier">1x</span>
+                <span class="stat-label">Multiplier</span>
             </div>
-        </div>
-
-        <div id="results-screen">
-            <h1 class="score-heading" id="final-score-heading">0/30</h1>
-            <p class="score-message" id="score-message">Assessment complete.</p>
-            <button class="btn-primary" style="display: inline-block;" onclick="restartQuiz()">Restart Assessment</button>
         </div>
     </div>
 
-    <script>
-        const quizData = [
-            {
-                q: "Translate: <strong>'Give it to me!'</strong> (le livre)",
-                options: ["Me le donne !", "Donne-me-le !", "Donne-le-moi !", "Donne-moi-le !"],
-                correct: 2,
-                exp: "In the affirmative imperative, pronouns follow the verb connected by hyphens. The direct object (le/la/les) precedes the indirect object (moi/toi/lui/leur). Thus: Donne + le + moi."
-            },
-            {
-                q: "Translate: <strong>'Do not give it to him!'</strong> (le livre)",
-                options: ["Ne le lui donne pas !", "Ne lui le donne pas !", "Ne donne-le-lui pas !", "Ne le donne lui pas !"],
-                correct: 0,
-                exp: "In the negative imperative, pronouns precede the verb just like in normal present tense. The order dictates that 3rd person direct objects (le/la/les) precede 3rd person indirect objects (lui/leur). -> Ne + le + lui + donne + pas."
-            },
-            {
-                q: "A-t-il acheté des pommes ? — Oui, il <strong>___</strong> a acheté.",
-                options: ["en", "les", "y", "des"],
-                correct: 0,
-                exp: "'Des pommes' is a partitive noun phrase (some apples). It must be replaced by the pronoun 'en'."
-            },
-            {
-                q: "Il a acheté des pommes hier. — Oui, il en a <strong>___</strong>.",
-                options: ["achetés", "achetée", "achetées", "acheté"],
-                correct: 3,
-                exp: "Crucial rule: The past participle NEVER agrees with the pronoun 'en', even though it acts as a preceding direct object. The participle remains singular masculine: 'acheté'."
-            },
-            {
-                q: "Tu te souviens <strong>de cette réunion</strong> ? — Oui, je <strong>___</strong>.",
-                options: ["m'y souviens", "me la souviens", "m'en souviens", "me souviens d'elle"],
-                correct: 2,
-                exp: "The verb is 'se souvenir de'. Since it is followed by an inanimate object ('de cette réunion'), it is replaced by 'en'. The reflexive pronoun precedes 'en' -> je m'en souviens."
-            },
-            {
-                q: "Tu penses souvent <strong>à ton grand-père</strong> ? — Oui, je pense souvent <strong>___</strong>.",
-                options: ["à lui", "y", "lui", "à le"],
-                correct: 0,
-                exp: "With certain verbs like 'penser à', when referring to a PERSON, you cannot use the pronoun 'y' or 'lui' before the verb. You must keep the preposition and use a stress pronoun after the verb: 'à lui'."
-            },
-            {
-                q: "Tu penses souvent <strong>à ton avenir</strong> ? — Oui, j'<strong>___</strong> pense souvent.",
-                options: ["y", "en", "lui", "à lui"],
-                correct: 0,
-                exp: "Unlike the previous question, 'ton avenir' is an inanimate concept. Verbs with 'à' + inanimate thing/idea are replaced by the pronoun 'y'."
-            },
-            {
-                q: "Que penses-tu <strong>de ce film</strong> ? — Qu'est-ce que tu <strong>___</strong> penses ?",
-                options: ["y", "en", "le", "lui"],
-                correct: 1,
-                exp: "'Penser de' means 'to have an opinion about'. Since it is constructed with 'de', it is replaced by the pronoun 'en'."
-            },
-            {
-                q: "Il y a des chaises dans le jardin ? — Oui, il <strong>___</strong> a.",
-                options: ["y les", "en y", "y en", "les y"],
-                correct: 2,
-                exp: "When combining 'y' and 'en', 'y' ALWAYS precedes 'en'. 'Il y en a' translates to 'There are some (there)'."
-            },
-            {
-                q: "Translate: <strong>'Go there!'</strong> (tu form of 'aller')",
-                options: ["Va-y !", "Vas-y !", "Va-y-toi !", "Vaz-y !"],
-                correct: 1,
-                exp: "In the affirmative imperative for 'tu', -er verbs normally drop the final 's' (Va !). However, when followed by 'y' or 'en', the 's' is added back for pronunciation (liaison): 'Vas-y !'."
-            },
+    <div class="card">
+        <h2>Problem Generator</h2>
+        
+        <div class="suvat-grid" id="suvat-display">
+            <div class="suvat-item"><span class="suvat-var">s</span><span class="suvat-val" id="val-s">?</span></div>
+            <div class="suvat-item"><span class="suvat-var">u</span><span class="suvat-val" id="val-u">?</span></div>
+            <div class="suvat-item"><span class="suvat-var">v</span><span class="suvat-val" id="val-v">?</span></div>
+            <div class="suvat-item"><span class="suvat-var">a</span><span class="suvat-val" id="val-a">?</span></div>
+            <div class="suvat-item"><span class="suvat-var">t</span><span class="suvat-val" id="val-t">?</span></div>
+        </div>
 
-            {
-                q: "Translate: <strong>'Buy some!'</strong> (tu form of 'acheter' + fruits)",
-                options: ["Achète-en !", "Achètes-en !", "Achète-les !", "Achètes-les !"],
-                correct: 1,
-                exp: "Similar to 'vas-y', the -er verb 'acheter' adds an 's' in the 'tu' imperative form when immediately followed by the pronoun 'en' for liaison: 'Achètes-en !'."
-            },
-            {
-                q: "Tu vas montrer <strong>les photos</strong> <strong>à tes amis</strong> ? — Oui, je vais <strong>___</strong> montrer.",
-                options: ["leur les", "les leur", "les y", "leur en"],
-                correct: 1,
-                exp: "Double pronoun order: 3rd person direct objects (le, la, les) precede 3rd person indirect objects (lui, leur). Furthermore, they are placed immediately before the infinitive 'montrer'."
-            },
-            {
-                q: "Il t'a rendu <strong>tes clés</strong> ? — Oui, il <strong>___</strong>.",
-                options: ["me les a rendu", "les m'a rendu", "me les a rendues", "les m'a rendues"],
-                correct: 2,
-                exp: "1) 'me' precedes 'les'. 2) Because the direct object ('les' replacing feminine plural 'clés') precedes the auxiliary 'avoir' in passé composé, the past participle MUST agree: 'rendues'."
-            },
-            {
-                q: "Il m'a conseillé <strong>de ne pas aller à cette fête</strong>. -> Il m'a conseillé de ne pas <strong>___</strong> aller.",
-                options: ["y", "en", "l'", "lui"],
-                correct: 0,
-                exp: "With an infinitive, the negative 'ne pas' stays together before the pronoun and the verb. 'À cette fête' is a place, replaced by 'y' -> 'de ne pas y aller'."
-            },
-            {
-                q: "Elle a fait réparer <strong>la voiture</strong>. -> Elle <strong>___</strong> a fait réparer.",
-                options: ["l'", "la", "lui", "y"],
-                correct: 0,
-                exp: "In the causative construction (faire + infinitive), the object pronoun is placed BEFORE 'faire', not before the infinitive -> 'Elle l'a fait réparer'."
-            },
-            {
-                q: "Elle a fait réparer la voiture. -> Elle l'a <strong>___</strong> réparer.",
-                options: ["faite", "fait", "faites", "fais"],
-                correct: 1,
-                exp: "An absolute rule of French grammar: the past participle of 'faire' (fait) NEVER agrees when it is followed by an infinitive, regardless of preceding direct objects."
-            },
-            {
-                q: "Vous venez <strong>de la piscine</strong> ? — Oui, nous <strong>___</strong> venons.",
-                options: ["y", "la", "en", "de là"],
-                correct: 2,
-                exp: "'Venir de' indicates origin. Places introduced by 'de' (coming from) are replaced by 'en', while places introduced by 'à' (going to) are replaced by 'y'."
-            },
-            {
-                q: "Il faut que tu <strong>me</strong> montres <strong>ce document</strong>. -> Il faut que tu <strong>___</strong> montres.",
-                options: ["le me", "me le", "lui le", "le lui"],
-                correct: 1,
-                exp: "Pronouns of the 1st and 2nd person (me, te, nous, vous) ALWAYS precede direct object pronouns (le, la, les). Therefore: 'me le'."
-            },
-            {
-                q: "He didn't explain it to me. -> Il ne <strong>___</strong> a pas expliqué.",
-                options: ["me l'", "le m'", "m'y", "me lui"],
-                correct: 0,
-                exp: "Order: 'me' + 'le' (which becomes l' before a vowel). The negation surrounds the pronouns + auxiliary verb -> 'Il ne me l'a pas expliqué'."
-            },
-            {
-                q: "Je ne veux pas prêter <strong>ma voiture</strong> <strong>à Luc</strong>. -> Je ne veux pas <strong>___</strong> prêter.",
-                options: ["la lui", "lui la", "le lui", "lui le"],
-                correct: 0,
-                exp: "Placement is before the infinitive 'prêter'. Order is 3rd person COD (la) before 3rd person COI (lui) -> 'la lui'."
-            },
+        <div class="problem-statement" id="problem-text">Loading problem...</div>
 
+        <div class="input-group">
+            <input type="number" id="user-answer" step="0.01" placeholder="Enter your numerical answer...">
+            <button id="submit-btn" onclick="checkAnswer()">Submit</button>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <div class="controls">
+            <button class="secondary" id="next-btn" onclick="nextProblem()" disabled>Generate Next Problem</button>
+        </div>
+
+        <div class="solution-container" id="solution">
+            <h2>Analysis & Breakdown</h2>
+            <p><strong>Formula Used:</strong> <span id="formula-used"></span></p>
+            <div class="steps-box" id="steps-text"></div>
+            
+            <h3 style="margin-top: 24px; font-size: 1rem;">Velocity-Time Graph (v-t)</h3>
+            <p style="font-size: 0.9rem;">The slope represents acceleration (a). The area under the line represents displacement (s).</p>
+            <div class="graph-container">
+                <canvas id="vt-graph" width="600" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // App State
+    let state = {
+        score: 0,
+        streak: 0,
+        multiplier: 1,
+        currentProblem: null
+    };
+
+    // SUVAT Equations Core
+    function generatePhysData() {
+        // Generate base truth
+        const t = Math.floor(Math.random() * 15) + 5; // 5 to 20 s
+        const u = Math.floor(Math.random() * 31) - 5; // -5 to 25 m/s
+        let a = Math.floor(Math.random() * 11) - 4; // -4 to 6 m/s^2
+        if (a === 0) a = 2; // prevent zero acceleration for better problems
+        
+        const v = u + (a * t);
+        const s = (u * t) + (0.5 * a * t * t);
+
+        return { s, u, v, a, t };
+    }
+
+    function createProblem() {
+        const data = generatePhysData();
+        const templates = [
             {
-                q: "Tu as combien de frères ? — J'<strong>___</strong> ai deux.",
-                options: ["y", "les", "en", "eux"],
-                correct: 2,
-                exp: "Whenever a sentence ends with a specific number or quantity (deux, plusieurs, beaucoup), the noun being counted MUST be represented by the pronoun 'en'."
+                target: 's',
+                knowns: { u: data.u, a: data.a, t: data.t, v: null },
+                text: `An object is moving with an initial velocity of ${data.u} m/s. It accelerates uniformly at ${data.a} m/s² for ${data.t} seconds. Calculate its total displacement (s) in meters.`,
+                ans: data.s,
+                formula: 's = ut + ½at²',
+                steps: `s = (${data.u})(${data.t}) + 0.5(${data.a})(${data.t})²\ns = ${data.u * data.t} + ${0.5 * data.a * data.t * data.t}\ns = ${data.s.toFixed(2)} m`
             },
             {
-                q: "Translate: <strong>'There are some there.'</strong>",
-                options: ["Il y a en.", "Il en y a.", "Il y en a.", "Il y a d'en."],
-                correct: 2,
-                exp: "The expression is 'il y a'. When adding 'en' to represent 'some', 'y' always precedes 'en' -> 'Il y en a'."
+                target: 'v',
+                knowns: { u: data.u, a: data.a, t: data.t, s: null },
+                text: `A car passes a marker at ${data.u} m/s and maintains a constant acceleration of ${data.a} m/s² for ${data.t} seconds. What is its final velocity (v) in m/s?`,
+                ans: data.v,
+                formula: 'v = u + at',
+                steps: `v = ${data.u} + (${data.a})(${data.t})\nv = ${data.u} + ${data.a * data.t}\nv = ${data.v.toFixed(2)} m/s`
             },
             {
-                q: "Je me fie <strong>à mes amis</strong>. -> Je me fie <strong>___</strong>.",
-                options: ["à eux", "leur", "les", "y"],
-                correct: 0,
-                exp: "'Se fier à' (to trust) is a reflexive verb. With reflexive verbs + à + people, you cannot use 'leur'. You must use a stress pronoun: 'à eux'."
+                target: 'a',
+                knowns: { u: data.u, v: data.v, t: data.t, s: null },
+                text: `A particle changes its velocity from ${data.u} m/s to ${data.v} m/s over a time period of ${data.t} seconds. Calculate its uniform acceleration (a) in m/s².`,
+                ans: data.a,
+                formula: 'a = (v - u) / t',
+                steps: `a = (${data.v} - ${data.u}) / ${data.t}\na = ${data.v - data.u} / ${data.t}\na = ${data.a.toFixed(2)} m/s²`
             },
             {
-                q: "Elle s'est habituée <strong>à la vie parisienne</strong>. -> Elle <strong>___</strong> est habituée.",
-                options: ["s'en", "s'y", "s'la", "se l'"],
-                correct: 1,
-                exp: "'S'habituer à' + inanimate concept ('la vie parisienne') requires the pronoun 'y'. It is placed before the auxiliary verb in passé composé: 's'y est'."
-            },
-            {
-                q: "A-t-elle offert <strong>du thé</strong> <strong>aux invités</strong> ? — Oui, elle <strong>___</strong> a offert.",
-                options: ["le leur", "leur en", "en leur", "les y"],
-                correct: 1,
-                exp: "'Du thé' (partitive) becomes 'en'. 'Aux invités' (indirect people) becomes 'leur'. Rule: 'leur' always precedes 'en' -> 'leur en'."
-            },
-            {
-                q: "Il a refusé <strong>de nous aider</strong>. -> Il <strong>___</strong> a refusé.",
-                options: ["en", "y", "l'", "le nous"],
-                correct: 2,
-                exp: "Highly advanced: Even though 'refuser' takes 'de' before an infinitive, a whole clause acting as a direct object is replaced by the neutral pronoun 'le' (l'), not 'en'."
-            },
-            {
-                q: "Translate: <strong>'Give me some!'</strong>",
-                options: ["Donne-me-en !", "Donne-m'en !", "Me donnes-en !", "Donnes-en-moi !"],
-                correct: 1,
-                exp: "Affirmative imperative requires pronouns after the verb. 'Moi' + 'en' elides to 'm'en'. -> 'Donne-m'en !'."
-            },
-            {
-                q: "Il faut que je parle <strong>de mon problème</strong> <strong>au médecin</strong>. -> Il faut que je <strong>___</strong> parle.",
-                options: ["le lui", "lui en", "en lui", "lui le"],
-                correct: 1,
-                exp: "'De mon problème' = 'en'. 'Au médecin' = 'lui'. Indirect objects (lui/leur) ALWAYS precede 'en'. -> 'lui en'."
-            },
-            {
-                q: "Translate: <strong>'Take us there!'</strong> (Emmener / nous / là-bas)",
-                options: ["Emmène-nous-y !", "Emmène-y-nous !", "Nous y emmène !", "Emmène-nous-en !"],
-                correct: 0,
-                exp: "Affirmative imperative: Pronouns follow the verb. Direct/Indirect object pronouns (nous) precede 'y'. -> 'Emmène-nous-y !'."
-            },
-            {
-                q: "As-tu trouvé <strong>de bonnes fraises</strong> au marché ? — Oui, j'<strong>___</strong> ai trouvé.",
-                options: ["y en", "en y", "les y", "y les"],
-                correct: 0,
-                exp: "'Au marché' = y. 'De bonnes fraises' = en. 'Y' precedes 'en'. And remember, the past participle 'trouvé' does NOT agree with 'en'."
+                target: 's',
+                knowns: { u: data.u, v: data.v, t: data.t, a: null },
+                text: `A train accelerates uniformly from ${data.u} m/s to ${data.v} m/s in ${data.t} seconds. Find the displacement (s) covered during this time in meters.`,
+                ans: data.s,
+                formula: 's = ½(u + v)t',
+                steps: `s = 0.5(${data.u} + ${data.v})(${data.t})\ns = 0.5(${data.u + data.v})(${data.t})\ns = ${data.s.toFixed(2)} m`
             }
         ];
 
-        let currentIdx = 0;
-        let score = 0;
-        let hasAnswered = false;
+        const selected = templates[Math.floor(Math.random() * templates.length)];
+        selected.truth = data; // store full physical truth for graphing
+        return selected;
+    }
 
-        const elements = {
-            progressText: document.getElementById('progress-text'),
-            progressBar: document.getElementById('progress-bar'),
-            scoreText: document.getElementById('score-text'),
-            questionText: document.getElementById('question-text'),
-            optionsList: document.getElementById('options-list'),
-            explanation: document.getElementById('explanation'),
-            explanationText: document.getElementById('explanation-text'),
-            nextBtn: document.getElementById('next-btn'),
-            quizScreen: document.getElementById('quiz-screen'),
-            resultsScreen: document.getElementById('results-screen'),
-            finalScoreHeading: document.getElementById('final-score-heading'),
-            scoreMessage: document.getElementById('score-message')
-        };
+    function updateUI() {
+        document.getElementById('score').innerText = state.score;
+        document.getElementById('streak').innerText = state.streak;
+        document.getElementById('multiplier').innerText = state.multiplier + 'x';
+    }
 
-        function loadQuestion() {
-            hasAnswered = false;
-            const q = quizData[currentIdx];
+    function nextProblem() {
+        state.currentProblem = createProblem();
+        const p = state.currentProblem;
+
+        // Reset UI
+        document.getElementById('user-answer').value = '';
+        document.getElementById('user-answer').disabled = false;
+        document.getElementById('submit-btn').disabled = false;
+        document.getElementById('next-btn').disabled = true;
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('solution').style.display = 'none';
+
+        // Update Text
+        document.getElementById('problem-text').innerText = p.text;
+
+        // Update SUVAT Grid
+        document.getElementById('val-s').innerText = p.knowns.s !== undefined && p.knowns.s !== null ? p.knowns.s + ' m' : (p.target === 's' ? '?' : '-');
+        document.getElementById('val-u').innerText = p.knowns.u !== undefined && p.knowns.u !== null ? p.knowns.u + ' m/s' : (p.target === 'u' ? '?' : '-');
+        document.getElementById('val-v').innerText = p.knowns.v !== undefined && p.knowns.v !== null ? p.knowns.v + ' m/s' : (p.target === 'v' ? '?' : '-');
+        document.getElementById('val-a').innerText = p.knowns.a !== undefined && p.knowns.a !== null ? p.knowns.a + ' m/s²' : (p.target === 'a' ? '?' : '-');
+        document.getElementById('val-t').innerText = p.knowns.t !== undefined && p.knowns.t !== null ? p.knowns.t + ' s' : (p.target === 't' ? '?' : '-');
+
+        document.getElementById('user-answer').focus();
+    }
+
+    function checkAnswer() {
+        const input = document.getElementById('user-answer').value;
+        if (input === '') return;
+
+        const userAns = parseFloat(input);
+        const actualAns = state.currentProblem.ans;
+        const isCorrect = Math.abs(userAns - actualAns) < 0.1; // Allow small rounding margin
+
+        const fb = document.getElementById('feedback');
+        fb.style.display = 'block';
+
+        if (isCorrect) {
+            const points = 10 * state.multiplier;
+            state.score += points;
+            state.streak += 1;
+            if (state.streak % 3 === 0) state.multiplier++;
             
-            elements.progressText.textContent = `Question ${currentIdx + 1} of ${quizData.length}`;
-            elements.scoreText.textContent = `Score: ${score}`;
+            fb.className = 'feedback correct';
+            fb.innerHTML = `<strong>Excellent!</strong> +${points} points. The correct answer is ${actualAns.toFixed(2)}.`;
+        } else {
+            state.streak = 0;
+            state.multiplier = 1;
             
-            const progressPercentage = (currentIdx / quizData.length) * 100;
-            elements.progressBar.style.width = `${progressPercentage}%`;
-
-            elements.questionText.innerHTML = q.q;
-            
-            elements.explanation.style.display = 'none';
-            elements.nextBtn.style.display = 'none';
-            elements.optionsList.innerHTML = '';
-
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option';
-                btn.innerHTML = opt;
-                btn.onclick = () => selectOption(idx, btn);
-                elements.optionsList.appendChild(btn);
-            });
+            fb.className = 'feedback incorrect';
+            fb.innerHTML = `<strong>Incorrect.</strong> The correct answer was ${actualAns.toFixed(2)}. Review the breakdown below.`;
         }
 
-        function selectOption(selectedIndex, btnElement) {
-            if (hasAnswered) return;
-            hasAnswered = true;
+        updateUI();
+        
+        // Lock inputs
+        document.getElementById('user-answer').disabled = true;
+        document.getElementById('submit-btn').disabled = true;
+        document.getElementById('next-btn').disabled = false;
 
-            const q = quizData[currentIdx];
-            const allBtns = elements.optionsList.querySelectorAll('.option');
+        // Show solution and graph
+        showSolution();
+    }
 
-            allBtns.forEach(btn => btn.disabled = true);
+    function showSolution() {
+        const p = state.currentProblem;
+        document.getElementById('solution').style.display = 'block';
+        document.getElementById('formula-used').innerText = p.formula;
+        document.getElementById('steps-text').innerText = p.steps;
 
-            if (selectedIndex === q.correct) {
-                btnElement.classList.add('correct');
-                score++;
-                elements.scoreText.textContent = `Score: ${score}`;
-            } else {
-                btnElement.classList.add('incorrect');
-                allBtns[q.correct].classList.add('correct');
-            }
+        drawGraph(p.truth);
+    }
 
-            elements.explanationText.innerHTML = q.exp;
-            elements.explanation.style.display = 'block';
+    function drawGraph(truth) {
+        const canvas = document.getElementById('vt-graph');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        
+        ctx.clearRect(0, 0, width, height);
 
-            if (currentIdx === quizData.length - 1) {
-                elements.nextBtn.textContent = "Complete Assessment";
-            } else {
-                elements.nextBtn.textContent = "Continue";
-            }
-            elements.nextBtn.style.display = 'inline-block';
+        const pad = 40;
+        const graphW = width - (pad * 2);
+        const graphH = height - (pad * 2);
+
+        // Find Y scale bounds
+        const minY = Math.min(0, truth.u, truth.v) - 5;
+        const maxY = Math.max(0, truth.u, truth.v) + 5;
+        const rangeY = maxY - minY;
+        
+        // Map data to canvas coordinates
+        const mapX = (time) => pad + (time / truth.t) * graphW;
+        const mapY = (vel) => pad + graphH - ((vel - minY) / rangeY) * graphH;
+
+        const yZero = mapY(0);
+
+        // Draw Axes
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#E5E3D9';
+        
+        // Grid lines (horizontal)
+        ctx.beginPath();
+        for (let i = 0; i <= 4; i++) {
+            let y = pad + (i/4)*graphH;
+            ctx.moveTo(pad, y);
+            ctx.lineTo(width-pad, y);
         }
+        ctx.stroke();
 
-        function nextQuestion() {
-            currentIdx++;
-            if (currentIdx < quizData.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
+        // X-Axis (Time) at Y=0
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#2D2D2D';
+        ctx.beginPath();
+        ctx.moveTo(pad, yZero);
+        ctx.lineTo(width - pad + 10, yZero);
+        ctx.stroke();
+
+        // Y-Axis (Velocity) at X=0
+        ctx.beginPath();
+        ctx.moveTo(pad, height - pad + 10);
+        ctx.lineTo(pad, pad - 10);
+        ctx.stroke();
+
+        // Axis Labels
+        ctx.fillStyle = '#737373';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.fillText('Time (s)', width / 2, yZero + 20 < height ? yZero + 20 : height - 5);
+        ctx.save();
+        ctx.translate(15, height / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('Velocity (m/s)', -40, 0);
+        ctx.restore();
+
+        // Draw Data points
+        const startX = mapX(0);
+        const startY = mapY(truth.u);
+        const endX = mapX(truth.t);
+        const endY = mapY(truth.v);
+
+        // Fill area under curve (Displacement)
+        ctx.beginPath();
+        ctx.moveTo(startX, yZero);
+        ctx.lineTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.lineTo(endX, yZero);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(217, 119, 87, 0.15)'; // Claude accent translucent
+        ctx.fill();
+
+        // Draw Velocity Line
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#D97757'; // Accent color
+        ctx.stroke();
+
+        // Plot markers
+        ctx.fillStyle = '#C26346';
+        ctx.beginPath(); ctx.arc(startX, startY, 5, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(endX, endY, 5, 0, Math.PI*2); ctx.fill();
+
+        // Labels for points
+        ctx.fillStyle = '#2D2D2D';
+        ctx.font = 'bold 12px Inter, sans-serif';
+        ctx.fillText(`u = ${truth.u}`, startX + 10, startY - 10);
+        ctx.fillText(`v = ${truth.v}`, endX - 40, endY - 10);
+        ctx.fillText(`t = ${truth.t}`, endX, yZero + 15);
+    }
+
+    // Add Enter key listener
+    document.getElementById("user-answer").addEventListener("keypress", function(event) {
+        if (event.key === "Enter" && !document.getElementById('submit-btn').disabled) {
+            event.preventDefault();
+            checkAnswer();
         }
+    });
 
-        function showResults() {
-            elements.progressBar.style.width = '100%';
-            elements.quizScreen.style.display = 'none';
-            elements.resultsScreen.style.display = 'block';
-            
-            elements.finalScoreHeading.textContent = `${score} / ${quizData.length}`;
-            
-            const percentage = score / quizData.length;
-            if (percentage === 1) {
-                elements.scoreMessage.textContent = "Impeccable. You possess a native-level understanding of complex French pronouns.";
-            } else if (percentage >= 0.8) {
-                elements.scoreMessage.textContent = "Excellent work. You have mastered the vast majority of advanced pronoun rules.";
-            } else if (percentage >= 0.6) {
-                elements.scoreMessage.textContent = "Good effort. These are highly advanced concepts; review the explanations for the nuances you missed.";
-            } else {
-                elements.scoreMessage.textContent = "This assessment targets the most difficult edge cases in French grammar. Review the explanations and try again.";
-            }
-        }
+    // Initialize
+    nextProblem();
+</script>
 
-        function restartQuiz() {
-            currentIdx = 0;
-            score = 0;
-            elements.quizScreen.style.display = 'block';
-            elements.resultsScreen.style.display = 'none';
-            loadQuestion();
-        }
-
-        // Initialize the first question on load
-        window.onload = loadQuestion;
-    </script>
 </body>
 </html>
